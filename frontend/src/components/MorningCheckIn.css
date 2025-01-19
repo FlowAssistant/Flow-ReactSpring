@@ -1,0 +1,43 @@
+/* MorningCheckIn.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f7f8fa;
+    font-family: 'Arial', sans-serif;
+}
+
+button {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.response, .logs {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+}
+
+.response h3, .logs h3 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
