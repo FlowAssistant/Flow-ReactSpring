@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")
-    public String index() {
-        return "index"; // index.html 반환
+    @GetMapping("/{path:[^\\.]*}") // 정적 파일이 아닌 모든 요청을 index.html로 포워드
+    public String redirectToIndex() {
+        return "forward:/index.html"; // React가 라우팅 처리
     }
 }

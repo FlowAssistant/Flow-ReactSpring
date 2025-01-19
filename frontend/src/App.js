@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MorningCheckIn from "./components/MorningCheckIn";
 
 function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    axios.get("/api/hello")
-        .then(response => setMessage(response.data))
-        .catch(error => console.error("Error fetching API:", error));
-  }, []);
-
-  return (
-      <div>
-        <h1>{message || "Loading..."}</h1>
-      </div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route path="/morning-checkin" element={<MorningCheckIn />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
