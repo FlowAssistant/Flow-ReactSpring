@@ -1,54 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from "./Profile.module.css";
+import iconEdit from "../assets/images/icon-edit.png"; // 기본 아이콘
+import iconProfileDefault from "../assets/images/iconProfileDefault.png"; // 기본 아이콘
 
-function Profile({ username, handleLogout }) {
-    const [editMode, setEditMode] = useState(false);
-    const [newUsername, setNewUsername] = useState(username);
 
-    const handleEdit = () => {
-        setEditMode(!editMode);
+function Profile({ username, setProfileImageUrl }) {
+    const [userData, setUserData] = useState({
+        name: "",
+        email: "",
+        profileImageUrl: "",
+    });
+    const [newImage, setNewImage] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`/api/users/${username}`);
+                setUserData(response.data);
+                setProfileImageUrl(response.data.profileImageUrl); // NavigationBar 업데이트
+            } catch (error) {
+                console.error("Failed to fetch user data", error);
+            }
+        };
+
+        fetchUserData();
+    }, [username, setProfileImageUrl]); // 의존성 배열 추가
+
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setNewImage(file);
     };
 
-    const handleSave = () => {
-        if (newUsername.trim() !== "") {
-            localStorage.setItem("username", newUsername);
-            alert("프로필이 업데이트되었습니다.");
-            setEditMode(false);
-        } else {
-            alert("유효한 사용자 이름을 입력해주세요.");
+    const handleSave = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("name", userData.name);
+            formData.append("email", userData.email);
+            if (newImage) {
+                formData.append("profileImage", newImage);
+            }
+
+            // 서버에 업데이트 요청
+            const response = await axios.put(`/api/users/${username}`, formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            alert("프로필이 성공적으로 업데이트되었습니다!");
+
+            // 프로필 이미지 상태를 업데이트
+            const updatedImageUrl = response.data.profileImageUrl; // 서버에서 반환된 URL
+            setUserData(response.data);
+            setProfileImageUrl(`${updatedImageUrl}?timestamp=${Date.now()}`); // 최신 URL 추가
+        } catch (error) {
+            console.error("Failed to update profile", error);
         }
     };
+
+
+
 
     return (
         <div className={styles.profileContainer}>
             <h2 className={styles.title}>프로필</h2>
-            <div className={styles.profileInfo}>
-                <label className={styles.label}>사용자 이름:</label>
-                {editMode ? (
-                    <input
-                        type="text"
-                        value={newUsername}
-                        onChange={(e) => setNewUsername(e.target.value)}
-                        className={styles.input}
-                    />
-                ) : (
-                    <span className={styles.username}>{username}</span>
-                )}
+            <div className={styles.formGroup}>
+                <div className={styles.formGroup}>
+                    <label htmlFor="profile_photo" className={styles.labelProfilePhoto}>
+                        <img
+                            src={userData.profileImageUrl || iconProfileDefault} // 기본 이미지 처리
+                            id="img-profile"
+                            className={styles.imgProfile}
+                            alt="Profile Picture"
+                        />
+                        <span className={styles.imgProfileOverlay}>프로필 변경</span>
+                        <img
+                            src={iconEdit}
+                            alt="수정 아이콘"
+                            className={styles.icon}
+                        />
+                        <input
+                            type="file"
+                            id="profile_photo"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className={styles.inputFile}
+                        />
+                    </label>
+                </div>
+                <label>이름:</label>
+                <input
+                    type="text"
+                    name="name"
+                    value={userData.name}
+                    onChange={(e) => setUserData({...userData, name: e.target.value})}
+                    className={styles.input}
+                />
             </div>
-            <div className={styles.actions}>
-                {editMode ? (
-                    <button onClick={handleSave} className={styles.saveButton}>
-                        저장
-                    </button>
-                ) : (
-                    <button onClick={handleEdit} className={styles.editButton}>
-                        수정
-                    </button>
-                )}
-                <button onClick={handleLogout} className={styles.logoutButton}>
-                    로그아웃
-                </button>
+            <div className={styles.formGroup}>
+                <label>이메일:</label>
+                <input
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    onChange={(e) => setUserData({...userData, email: e.target.value})}
+                    className={styles.input}
+                />
             </div>
+
+            <button onClick={handleSave} className={styles.saveButton}>
+                저장
+            </button>
         </div>
     );
 }

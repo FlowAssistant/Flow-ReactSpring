@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./NavigationBar.module.css";
 import logo from "../assets/images/flow-logo.png";
-import iconProfileDefault from "../assets/images/iconProfileDefault.png"; // 프로필 이미지 경로
+import iconProfileDefault from "../assets/images/iconProfileDefault.png"; // 기본 아이콘
 
-function NavigationBar({ username, handleLogout }) {
+function NavigationBar({ username, profileImageUrl, handleLogout }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -23,7 +23,7 @@ function NavigationBar({ username, handleLogout }) {
                         {/* 프로필 아이콘 */}
                         <Link to="/profile" className={styles.profileLink}>
                             <img
-                                src={iconProfileDefault}
+                                src={profileImageUrl || iconProfileDefault} // 프로필 이미지 상태 반영
                                 alt="프로필"
                                 className={styles.profileImage}
                             />
