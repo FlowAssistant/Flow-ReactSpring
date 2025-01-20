@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './EveningReflection.css'; // CSS 파일 import
 
-function EveningReflection() {
+function EveningReflection({ username }) { // Props로 username 받기
     const [reflection, setReflection] = useState('');
     const [response, setResponse] = useState(null);
 
     const handleReflection = async () => {
         try {
             const result = await axios.post('/api/evening-reflection', {
-                username: 'testUser', // 임시 사용자
+                username: username,
                 reflection: reflection,
             });
             setResponse(result.data);
@@ -31,7 +30,7 @@ function EveningReflection() {
             </div>
             <button onClick={handleReflection}>피드백 받기</button>
             {response && (
-                <div className="response">
+                <div>
                     <h3>피드백:</h3>
                     <p>{response.feedback}</p>
                 </div>

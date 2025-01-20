@@ -1,0 +1,28 @@
+.navigation-bar {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+.app-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}

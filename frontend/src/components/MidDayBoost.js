@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function MidDayBoost() {
+function MidDayBoost({ username }) { // Props로 username 받기
     const [emotion, setEmotion] = useState('');
     const [feedback, setFeedback] = useState(null);
 
     const handleBoost = async () => {
         try {
             const result = await axios.post('/api/midday-boost', {
-                username: 'testUser', // 임시 사용자
+                username: username,
                 emotion: emotion,
             });
             setFeedback(result.data.feedback);

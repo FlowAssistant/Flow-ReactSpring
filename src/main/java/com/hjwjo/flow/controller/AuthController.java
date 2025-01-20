@@ -6,8 +6,12 @@ import com.hjwjo.flow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import java.util.Optional;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,7 +25,7 @@ public class AuthController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<String> register(@RequestBody @Valid User user) {
         // 사용자 중복 확인
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             return ResponseEntity.badRequest().body("Error: Username is already taken!");
@@ -33,27 +37,15 @@ public class AuthController {
         return ResponseEntity.ok("User registered successfully!");
     }
 
-    // 로그인
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            return ResponseEntity.ok("Login successful!");
-        } else {
-            return ResponseEntity.status(401).body("Invalid username or password");
-        }
-    }
-
-    // 사용자 프로필 조회
-    @GetMapping("/profile")
-    public Optional<User> getProfile(@RequestParam String username) {
-        return userService.getUserByUsername(username);
-    }
-
-    // 사용자 프로필 수정
-    @PutMapping("/profile")
-    public User updateProfile(@RequestParam String username, @RequestBody User updatedUser) {
-        return userService.updateUser(username, updatedUser);
+    // 글로벌 예외 처리
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 }

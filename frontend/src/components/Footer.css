@@ -1,0 +1,25 @@
+.footer {
+    background-color: #f8f9fa; /* 밝은 배경색 */
+    color: #6c757d; /* 부드러운 텍스트 색상 */
+    text-align: center;
+    padding: 15px 20px;
+    border-top: 1px solid #e9ecef; /* 위쪽 경계선 */
+    font-size: 14px;
+    position: fixed; /* 화면 하단 고정 */
+    bottom: 0;
+    width: 100%;
+    z-index: 1000; /* 다른 요소 위에 표시 */
+}
+
+.footer p {
+    margin: 0; /* 여백 제거 */
+}
+
+.footer a {
+    color: #007bff; /* 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.footer a:hover {
+    text-decoration: underline; /* 마우스 호버 시 밑줄 표시 */
+}
