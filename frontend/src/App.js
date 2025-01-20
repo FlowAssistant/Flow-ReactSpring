@@ -7,35 +7,68 @@ import NavigationBar from "./components/NavigationBar";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./components/Profile";
 import "./App.css";
 
 function App() {
-    const [username, setUsername] = useState(null);
+    const [username, setUsername] = useState(localStorage.getItem("username") || "");
 
-    // 로그아웃 처리 함수
+    const handleLogin = (username) => {
+        setUsername(username);
+        localStorage.setItem("username", username);
+    };
+
     const handleLogout = () => {
-        setUsername(null); // 사용자 상태 초기화
+        setUsername("");
+        localStorage.removeItem("username");
     };
 
     return (
         <Router>
             <div className="app-container">
-                <NavigationBar username={username} handleLogout={handleLogout} /> {/* 로그아웃 핸들러 전달 */}
+                <NavigationBar username={username} handleLogout={handleLogout} />
                 <Routes>
-                    {!username ? (
-                        <>
-                            <Route path="/login" element={<Login setUser={setUsername} />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="*" element={<Navigate to="/login" />} />
-                        </>
-                    ) : (
-                        <>
-                            <Route path="/morning-checkin" element={<MorningCheckIn username={username} />} />
-                            <Route path="/midday-boost" element={<MidDayBoost username={username} />} />
-                            <Route path="/evening-reflection" element={<EveningReflection username={username} />} />
-                            <Route path="*" element={<Navigate to="/morning-checkin" />} />
-                        </>
-                    )}
+                    {/* 로그인 및 회원가입 */}
+                    <Route path="/login" element={<Login setUser={handleLogin} />} />
+                    <Route path="/signup" element={<Signup />} />
+
+                    {/* 보호된 경로 */}
+                    <Route
+                        path="/morning-checkin"
+                        element={
+                            <ProtectedRoute>
+                                <MorningCheckIn username={username} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/midday-boost"
+                        element={
+                            <ProtectedRoute>
+                                <MidDayBoost username={username} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/evening-reflection"
+                        element={
+                            <ProtectedRoute>
+                                <EveningReflection username={username} />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile username={username} />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* 기본 경로 */}
+                    <Route path="*" element={<Navigate to="/morning-checkin" />} />
                 </Routes>
                 <Footer />
             </div>

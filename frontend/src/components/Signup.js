@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Signup.css";
+import styles from "./Signup.module.css"; // CSS 모듈 import
 
 function Signup() {
     const [username, setUsername] = useState("");
@@ -10,44 +10,42 @@ function Signup() {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/api/auth/register", { username, password });
+            await axios.post("/api/auth/register", { username, password });
             alert("회원가입 성공!");
         } catch (err) {
-            if (err.response && err.response.data) {
-                const errorMessages = Object.values(err.response.data).join(" ");
-                setError(errorMessages);
-            } else {
-                setError("회원가입 중 오류가 발생했습니다.");
-            }
+            const errorMessage = err.response?.data?.message || "회원가입 중 오류가 발생했습니다.";
+            setError(errorMessage);
         }
     };
 
     return (
-        <div className="signup-container">
-            <form onSubmit={handleSignup} className="signup-form">
-                <div className="form-group">
-                    <h3>회원가입</h3>
-                    <label className="form-label">사용자 이름:</label>
+        <div className={styles.signupContainer}>
+            <form onSubmit={handleSignup} className={styles.signupForm}>
+                <h3 className={styles.signupTitle}>회원가입</h3>
+                <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>사용자 이름:</label>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className="form-input"
+                        className={styles.formInput}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label className="form-label">비밀번호:</label>
+                <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>비밀번호:</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="form-input"
+                        className={styles.formInput}
                         required
                     />
                 </div>
-                {error && <p className="form-error">{error}</p>}
-                <button type="submit" className="form-button">회원가입</button>
+                {error && <p className={styles.formError}>{error}</p>}
+                <button type="submit" className={styles.formButton}>
+                    회원가입
+                </button>
             </form>
         </div>
     );

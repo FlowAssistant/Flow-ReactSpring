@@ -1,0 +1,122 @@
+/* 기존 스타일 유지 */
+.navigationBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+.appLogo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.appTitle {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+}
+
+.navLink {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}
+
+/* 프로필 링크 및 이미지 스타일 */
+.profileLink {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.profileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%; /* 원형으로 표시 */
+    cursor: pointer;
+    object-fit: cover; /* 이미지가 영역에 맞게 조정됨 */
+    border: 1px solid #ccc; /* 테두리 */
+    transition: box-shadow 0.3s ease;
+}
+
+.profileImage:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 */
+}
+
+/* 햄버거 버튼 */
+.hamburgerContainer {
+    position: relative;
+}
+
+.hamburgerButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.hamburgerButton:hover {
+    color: #e0e0e0;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdownMenu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+    width: 200px;
+    margin-top: 39px;
+}
+/* 버튼을 드롭다운 스타일에 맞추기 */
+.dropdownMenu button {
+    all: unset; /* 모든 기본 버튼 스타일 제거 */
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.dropdownLink {
+    display: block;
+    padding: 15px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.dropdownLink:last-child {
+    border-bottom: none;
+}
+
+.dropdownLink:hover {
+    background-color: #f7f7f7;
+}

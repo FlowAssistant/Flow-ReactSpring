@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import axios from "axios";
+import styles from "./Login.module.css";
 
 function Login({ setUser }) {
     const [username, setUsername] = useState("");
@@ -8,35 +9,47 @@ function Login({ setUser }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        if (username && password) {
-            // 간단한 인증 처리
-            setUser(username);
-            localStorage.setItem("user", username); // 상태를 유지
-            navigate("/morning-checkin"); // 로그인 후 이동
-        } else {
+    const handleLogin = async () => {
+        if (!username || !password) {
             setError("아이디와 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        try {
+            const response = await axios.post("/api/auth/login", {
+                username,
+                password,
+            });
+            setUser(username);
+            localStorage.setItem("username", username);
+            navigate("/morning-checkin");
+        } catch (error) {
+            setError("아이디 또는 비밀번호가 올바르지 않습니다.");
         }
     };
 
     return (
-        <div className="login-container">
-            <h2>로그인</h2>
-            {error && <p className="error-message">{error}</p>}
-            <div>
+        <div className={styles.loginContainer}>
+            {error && <p className={styles.errorMessage}>{error}</p>}
+            <div className={styles.formGroup}>
+                <h2 className={styles.loginTitle}>로그인</h2>
                 <input
+                    className={styles.loginInput}
                     type="text"
                     placeholder="아이디"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
+                    className={styles.loginInput}
                     type="password"
                     placeholder="비밀번호"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button onClick={handleLogin}>로그인</button>
+                <button className={styles.loginButton} onClick={handleLogin}>
+                    로그인
+                </button>
             </div>
         </div>
     );
