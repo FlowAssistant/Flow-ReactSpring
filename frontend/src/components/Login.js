@@ -9,22 +9,16 @@ function Login({ setUser }) {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        if (!username || !password) {
-            setError("아이디와 비밀번호를 입력해주세요.");
-            return;
-        }
-
+    const handleLogin = async (e) => {
+        e.preventDefault();
         try {
-            const response = await axios.post("/api/auth/login", {
-                username,
-                password,
-            });
+            const response = await axios.post("/api/auth/login", { username, password });
             setUser(username);
-            localStorage.setItem("username", username);
-            navigate("/morning-checkin");
-        } catch (error) {
-            setError("아이디 또는 비밀번호가 올바르지 않습니다.");
+            alert("로그인 성공!");
+            navigate("/profile");
+        } catch (err) {
+            console.error("로그인 실패", err);
+            setError("로그인에 실패했습니다.");
         }
     };
 
