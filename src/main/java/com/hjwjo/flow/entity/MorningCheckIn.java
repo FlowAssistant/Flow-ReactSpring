@@ -12,6 +12,9 @@ public class MorningCheckIn {
     private Long id;
 
     private String username;
-    private String emotion;
+
+    @Lob // 긴 텍스트 데이터를 저장하기 위한 애노테이션
+    private String responses;
+
     private String recommendedActivity;
 }

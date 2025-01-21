@@ -7,10 +7,21 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-textarea {
-    width: 80%;
-    height: 100px;
-    margin: 10px 0;
+.title {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.question {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 20px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -18,34 +29,51 @@ textarea {
     resize: none;
 }
 
-.button {
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.optionButton {
     padding: 10px 20px;
     font-size: 16px;
-    color: #fff;
     background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.button:hover {
+.optionButton:hover {
     background-color: #0056b3;
 }
 
-.response {
+.sliderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider {
+    width: 80%;
+    margin: 20px 0;
+}
+
+.feedback {
     margin-top: 20px;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f8f9fa;
 }
 
-.response h3 {
+.feedback h3 {
+    font-size: 20px;
     margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
 }
 
-.response p {
+.feedback p {
     font-size: 16px;
 }

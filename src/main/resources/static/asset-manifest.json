@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.df46c160.css",
-    "main.js": "/static/js/main.d4b7ecbf.js",
+    "main.css": "/static/css/main.324903fc.css",
+    "main.js": "/static/js/main.bba8f599.js",
     "static/js/156.7f83abca.chunk.js": "/static/js/156.7f83abca.chunk.js",
     "static/media/flow-logo.png": "/static/media/flow-logo.2cc79d172adc021a97ad.png",
     "index.html": "/index.html",
-    "main.df46c160.css.map": "/static/css/main.df46c160.css.map",
-    "main.d4b7ecbf.js.map": "/static/js/main.d4b7ecbf.js.map",
+    "main.324903fc.css.map": "/static/css/main.324903fc.css.map",
+    "main.bba8f599.js.map": "/static/js/main.bba8f599.js.map",
     "156.7f83abca.chunk.js.map": "/static/js/156.7f83abca.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.df46c160.css",
-    "static/js/main.d4b7ecbf.js"
+    "static/css/main.324903fc.css",
+    "static/js/main.bba8f599.js"
   ]
 }

@@ -33,7 +33,6 @@ function App() {
         fetchUserProfile();
     }, [username]);
 
-
     // 로그인 핸들러
     const handleLogin = (username) => {
         setUsername(username);
@@ -45,6 +44,14 @@ function App() {
         setUsername("");
         setProfileImageUrl(""); // 로그아웃 시 프로필 이미지 초기화
         localStorage.removeItem("username");
+    };
+
+    // 현재 시간 기반 컴포넌트 결정
+    const getTimeBasedComponent = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return <MorningCheckIn username={username} />;
+        if (hour < 18) return <MidDayBoost username={username} />;
+        return <EveningReflection username={username} />;
     };
 
     return (
@@ -73,33 +80,17 @@ function App() {
                     <Route path="/login" element={<Login setUser={handleLogin} />} />
                     <Route path="/signup" element={<Signup />} />
 
-                    {/* 보호된 경로 */}
+                    {/* 기본 경로에서 시간대별 컴포넌트 로드 */}
                     <Route
-                        path="/morning-checkin"
+                        path="/"
                         element={
                             <ProtectedRoute>
-                                <MorningCheckIn username={username} />
+                                {getTimeBasedComponent()}
                             </ProtectedRoute>
                         }
                     />
-                    <Route
-                        path="/midday-boost"
-                        element={
-                            <ProtectedRoute>
-                                <MidDayBoost username={username} />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/evening-reflection"
-                        element={
-                            <ProtectedRoute>
-                                <EveningReflection username={username} />
-                            </ProtectedRoute>
-                        }
-                    />
-                    {/* 기본 경로 */}
-                    <Route path="*" element={<Navigate to="/morning-checkin" />} />
+                    {/* 기타 경로는 기본으로 리다이렉트 */}
+                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
                 <Footer />
             </div>

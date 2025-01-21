@@ -5,6 +5,7 @@ import com.hjwjo.flow.service.MorningCheckInService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,11 +19,11 @@ public class MorningCheckInController {
     }
 
     @PostMapping("/morning-checkin")
-    public ResponseEntity<?> morningCheckIn(@RequestBody Map<String, String> request) {
-        String username = request.get("username");
-        String emotion = request.get("emotion");
+    public ResponseEntity<?> morningCheckIn(@RequestBody Map<String, Object> request) {
+        String username = (String) request.get("username");
+        List<String> responses = (List<String>) request.get("responses"); // 여러 응답을 받음
 
-        MorningCheckIn checkIn = service.handleCheckIn(username, emotion);
+        MorningCheckIn checkIn = service.handleCheckIn(username, responses);
         return ResponseEntity.ok(Map.of(
                 "message", "체크인에 성공했습니다.",
                 "recommendedActivity", checkIn.getRecommendedActivity()
