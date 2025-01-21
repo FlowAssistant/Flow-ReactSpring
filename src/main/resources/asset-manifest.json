@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1a093beb.css",
+    "main.js": "/static/js/main.a6a8e976.js",
+    "static/js/156.7f83abca.chunk.js": "/static/js/156.7f83abca.chunk.js",
+    "static/media/flow-logo.png": "/static/media/flow-logo.2cc79d172adc021a97ad.png",
+    "index.html": "/index.html",
+    "main.1a093beb.css.map": "/static/css/main.1a093beb.css.map",
+    "main.a6a8e976.js.map": "/static/js/main.a6a8e976.js.map",
+    "156.7f83abca.chunk.js.map": "/static/js/156.7f83abca.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1a093beb.css",
+    "static/js/main.a6a8e976.js"
+  ]
+}

@@ -5,13 +5,14 @@ import com.hjwjo.flow.repository.UserRepository;
 import com.hjwjo.flow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,17 +26,30 @@ public class AuthController {
 
     // 회원가입
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid User user) {
-        // 사용자 중복 확인
+    public ResponseEntity<Map<String, String>> register(@RequestBody @Valid User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            return ResponseEntity.badRequest().body("Error: Username is already taken!");
+            return ResponseEntity.badRequest().body(Map.of("error", "Username is already taken!"));
         }
 
-        // 비밀번호를 암호화하지 않고 저장
         userRepository.save(user);
-
-        return ResponseEntity.ok("User registered successfully!");
+        return ResponseEntity.ok(Map.of("message", "User registered successfully!"));
     }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> loginRequest) {
+        String username = loginRequest.get("username");
+        String password = loginRequest.get("password");
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isPresent() && user.get().getPassword().equals(password)) {
+            return ResponseEntity.ok(Map.of("message", "Login successful!"));
+        } else {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid username or password"));
+        }
+    }
+
 
     // 글로벌 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
