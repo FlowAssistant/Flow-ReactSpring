@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styles from "./EveningReflection.module.css";
 
 function EveningReflection({ username }) {
-    const [step, setStep] = useState(0); // 현재 질문 단계
-    const [responses, setResponses] = useState({}); // 사용자 응답 저장
+    const [step, setStep] = useState(0);
+    const [responses, setResponses] = useState({});
     const [feedback, setFeedback] = useState(null);
+    const [sliderValue, setSliderValue] = useState(5);
 
     const questions = [
         {
-            question: "오늘 하루를 돌아보며 한 마디로 표현해 보세요:",
+            question: "오늘 하루를 돌아보며 한 마디로 표현해 보세요",
             placeholder: "예: 오늘은 스트레스가 많았지만 뿌듯한 하루였어요.",
             type: "text",
         },
@@ -40,14 +40,37 @@ function EveningReflection({ username }) {
 
     const handleSubmit = async () => {
         try {
-            const result = await axios.post("/api/evening-reflection", {
-                username: username,
-                responses: responses,
-            });
-            setFeedback(result.data.feedback);
+            // 임의의 피드백 데이터를 추가합니다.
+            const mockFeedback = {
+                feedback: "오늘 하루 고생하셨습니다! 내일도 행복한 하루 되세요. 😊",
+            };
+
+            // 서버 요청 대신 임의 데이터를 설정
+            setFeedback(mockFeedback.feedback);
         } catch (error) {
             console.error("Error submitting reflection:", error);
+            setFeedback("오류가 발생했습니다. 다시 시도해주세요.");
         }
+    };
+    // 아래는 ai 연결시 구현
+    // const handleSubmit = async () => {
+    //     try {
+    //         const result = await fetch("/api/evening-reflection", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ username, responses }),
+    //         });
+    //         const data = await result.json();
+    //         setFeedback(data.feedback);
+    //     } catch (error) {
+    //         console.error("Error submitting reflection:", error);
+    //     }
+    // };
+
+    const handleSliderChange = (e) => {
+        const value = e.target.value;
+        setSliderValue(value);
+        document.documentElement.style.setProperty("--value", `${(value - 1) * 10}%`); // 게이지 값 제한
     };
 
     return (
@@ -57,16 +80,27 @@ function EveningReflection({ username }) {
                 <div className={styles.feedback}>
                     <h3>AI 피드백:</h3>
                     <p>{feedback}</p>
+                    <button className={styles.finishButton} onClick={() => window.location.reload()}>
+                        다시 시작하기
+                    </button>
                 </div>
             ) : (
                 <div>
                     <p className={styles.question}>{questions[step].question}</p>
                     {questions[step].type === "text" && (
-                        <textarea
-                            className={styles.textarea}
-                            placeholder={questions[step].placeholder}
-                            onChange={(e) => handleNext(e.target.value)}
-                        />
+                        <>
+                            <textarea
+                                className={styles.textarea}
+                                placeholder={questions[step].placeholder}
+                                onBlur={(e) => setResponses((prev) => ({ ...prev, [questions[step].question]: e.target.value }))}
+                            />
+                            <button
+                                className={styles.nextButton}
+                                onClick={() => handleNext(responses[questions[step].question])}
+                            >
+                                다음
+                            </button>
+                        </>
                     )}
                     {questions[step].type === "multiple-choice" && (
                         <div className={styles.options}>
@@ -87,9 +121,14 @@ function EveningReflection({ username }) {
                                 type="range"
                                 min="1"
                                 max="10"
+                                value={sliderValue}
                                 className={styles.slider}
-                                onChange={(e) => handleNext(e.target.value)}
+                                onChange={handleSliderChange}
                             />
+                            <p>현재 점수: {sliderValue}</p>
+                            <button className={styles.nextButton} onClick={() => handleNext(sliderValue)}>
+                                다음
+                            </button>
                         </div>
                     )}
                 </div>
