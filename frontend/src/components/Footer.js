@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./Footer.css";
+import styles from "./Footer.module.css";
 
 const Footer = () => {
     const navigate = useNavigate();
-    const [activeMenu, setActiveMenu] = useState("checkin");
+    const [activeMenu, setActiveMenu] = useState("home");
 
     const handleNavigation = (menu) => {
         setActiveMenu(menu);
@@ -13,85 +13,60 @@ const Footer = () => {
     };
 
     return (
-        <footer className="footer">
-            {/* 시간대별 체크인 */}
+        <footer className={styles.footer}>
+            {/* 홈 */}
             <div
-                onClick={() => handleNavigation("checkin")}
-                className={`btn-menu ${activeMenu === "checkin" ? "active" : ""}`}
+                onClick={() => handleNavigation("dashboard")}
+                className={`${styles.menuItem} ${
+                    activeMenu === "dashboard" ? styles.active : ""
+                }`}
             >
-                <div className="btn-menu-inner">
-                    <div className="icon-wrap">
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke={activeMenu === "checkin" ? "#000" : "#FFF"} strokeWidth="2" />
-                            <path d="M9 12l2 2 4-4" stroke={activeMenu === "checkin" ? "#000" : "#FFF"} strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
-                    <span>체크인</span>
-                </div>
+                <i className={`fas fa-home ${styles.icon}`}></i>
+                <span>홈</span>
             </div>
 
-            {/* AI 피드백 */}
+            {/* 채팅 */}
             <div
-                onClick={() => handleNavigation("feedback")}
-                className={`btn-menu ${activeMenu === "feedback" ? "active" : ""}`}
+                onClick={() => handleNavigation("chat")}
+                className={`${styles.menuItem} ${
+                    activeMenu === "chat" ? styles.active : ""
+                }`}
             >
-                <div className="btn-menu-inner">
-                    <div className="icon-wrap">
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke={activeMenu === "feedback" ? "#000" : "#FFF"} strokeWidth="2" />
-                            <circle cx="9" cy="10" r="1" fill={activeMenu === "feedback" ? "#000" : "#FFF"} />
-                            <circle cx="15" cy="10" r="1" fill={activeMenu === "feedback" ? "#000" : "#FFF"} />
-                            <path d="M9 14h6" stroke={activeMenu === "feedback" ? "#000" : "#FFF"} strokeWidth="1.5" />
-                        </svg>
-                    </div>
-                    <span>AI 피드백</span>
-                </div>
+                <i className={`fas fa-comments ${styles.icon}`}></i>
+                <span>채팅</span>
             </div>
 
-            {/* 프로필 */}
+            {/* 체크인 */}
             <div
-                onClick={() => handleNavigation("profile")}
-                className={`btn-menu ${activeMenu === "profile" ? "active" : ""}`}
+                onClick={() => handleNavigation("signup")}
+                className={`${styles.menuItem} ${
+                    activeMenu === "signup" ? styles.active : ""
+                }`}
             >
-                <div className="btn-menu-inner">
-                    <div className="icon-wrap">
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke={activeMenu === "profile" ? "#000" : "#FFF"} strokeWidth="2" />
-                            <path d="M6 18c1.5-4 9-4 12 0" stroke={activeMenu === "profile" ? "#000" : "#FFF"} strokeWidth="2" />
-                        </svg>
-                    </div>
-                    <span>프로필</span>
-                </div>
+                <i className={`fas fa-th-large ${styles.icon}`}></i>
+                <span>체크인</span>
             </div>
 
-            {/* 성장 분석 */}
+            {/* 해석 */}
             <div
-                onClick={() => handleNavigation("growth")}
-                className={`btn-menu ${activeMenu === "growth" ? "active" : ""}`}
+                onClick={() => handleNavigation("analysis")}
+                className={`${styles.menuItem} ${
+                    activeMenu === "analysis" ? styles.active : ""
+                }`}
             >
-                <div className="btn-menu-inner">
-                    <div className="icon-wrap">
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <path d="M6 18l4-8 4 6 4-10" stroke={activeMenu === "growth" ? "#000" : "#FFF"} strokeWidth="2" />
-                        </svg>
-                    </div>
-                    <span>분석</span>
-                </div>
+                <i className={`fas fa-calendar-alt ${styles.icon}`}></i>
+                <span>분석</span>
             </div>
 
-            {/* 일일 요약 */}
+            {/* 혜택 */}
             <div
-                onClick={() => handleNavigation("summary")}
-                className={`btn-menu ${activeMenu === "summary" ? "active" : ""}`}
+                onClick={() => handleNavigation("event")}
+                className={`${styles.menuItem} ${
+                    activeMenu === "event" ? styles.active : ""
+                }`}
             >
-                <div className="btn-menu-inner">
-                    <div className="icon-wrap">
-                        <svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <path d="M6 8h12M6 12h8M6 16h4" stroke={activeMenu === "summary" ? "#000" : "#FFF"} strokeWidth="2" />
-                        </svg>
-                    </div>
-                    <span>일일 요약</span>
-                </div>
+                <i className={`fas fa-gift ${styles.icon}`}></i>
+                <span>이벤트</span>
             </div>
         </footer>
     );
