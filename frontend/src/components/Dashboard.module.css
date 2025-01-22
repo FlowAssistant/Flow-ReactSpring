@@ -1,0 +1,119 @@
+.container {
+    background-color: #f9fafb;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.headerIcons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.score {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.icon {
+    color: #999;
+    font-size: 20px;
+}
+
+.starIcon {
+    color: #22c55e; /* Green */
+    font-size: 20px;
+}
+
+/* Notice */
+.notice {
+    background-color: #e0f2fe;
+    color: #0284c7;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cardPrimary {
+    border-color: #3b82f6; /* Blue */
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.cardTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.cardText {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.cardImage {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+/* Tags */
+.tag {
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #3b82f6; /* Blue */
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+.greenTag {
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #d1fae5; /* Light Green */
+    color: #10b981; /* Green */
+    padding: 4px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
