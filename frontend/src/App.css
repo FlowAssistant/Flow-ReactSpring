@@ -87,13 +87,3 @@ textarea {
   border-color: #007bff; /* 포커스 시 색상 */
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 */
 }
-
-.footer {
-  margin-top: auto; /* 아래쪽으로 밀기 */
-  padding: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #888;
-  background-color: #f9f9f9;
-  border-top: 1px solid #ccc; /* 상단 경계선 */
-}
