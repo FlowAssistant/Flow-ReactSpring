@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./components/Profile";
+import Dashboard from "./components/Dashboard"; // Dashboard 추가
 import axios from "axios";
 import "./App.css";
 
@@ -64,6 +65,24 @@ function App() {
                     handleLogout={handleLogout}
                 />
                 <Routes>
+                    {/* Dashboard는 별도 경로로 추가 */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    {/* 시간대별 컴포넌트 */}
+                    <Route
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                {getTimeBasedComponent()}
+                            </ProtectedRoute>
+                        }
+                    />
                     {/* 프로필 페이지 */}
                     <Route
                         path="/profile"
@@ -80,15 +99,6 @@ function App() {
                     <Route path="/login" element={<Login setUser={handleLogin} />} />
                     <Route path="/signup" element={<Signup />} />
 
-                    {/* 기본 경로에서 시간대별 컴포넌트 로드 */}
-                    <Route
-                        path="/"
-                        element={
-                            <ProtectedRoute>
-                                {getTimeBasedComponent()}
-                            </ProtectedRoute>
-                        }
-                    />
                     {/* 기타 경로는 기본으로 리다이렉트 */}
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
