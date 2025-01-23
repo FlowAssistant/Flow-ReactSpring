@@ -1,0 +1,76 @@
+/* 전체 컨테이너 */
+.container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+}
+
+/* 제목 스타일 */
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #1d3557;
+}
+
+/* 보드 스타일 */
+.board {
+    display: grid;
+    grid-template-columns: repeat(6, 60px); /* 6칸 */
+    gap: 10px; /* 칸 사이 간격 */
+    justify-content: center;
+    margin: 20px auto;
+}
+
+/* 개별 칸 */
+.cell {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* 동그랗게 만들기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 외곽 경로의 칸 */
+.outerCell {
+    border: 2px solid #1d3557;
+    background-color: #a8dadc;
+    color: #1d3557;
+}
+
+/* 비어 있는 중앙 칸 */
+.emptyCell {
+    background-color: transparent;
+    pointer-events: none;
+}
+
+/* 현재 위치 강조 */
+.activeCell {
+    background-color: #e63946;
+    color: white;
+}
+
+/* 버튼 스타일 */
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #457b9d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.button:hover {
+    background-color: #1d3557;
+}
+
+/* 메시지 스타일 */
+.message {
+    font-size: 18px;
+    color: #1d3557;
+    margin-top: 10px;
+}
