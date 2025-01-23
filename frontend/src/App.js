@@ -12,6 +12,8 @@ import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard"; // Dashboard 추가
 import axios from "axios";
 import "./App.css";
+import YutnoriWrap from "./components/YutnoriGame";
+import YutnoriGame from "./components/YutnoriGame";
 
 function App() {
     const [username, setUsername] = useState(localStorage.getItem("username") || ""); // username 상태
@@ -71,6 +73,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/event"
+                        element={
+                            <ProtectedRoute>
+                                <YutnoriGame />
                             </ProtectedRoute>
                         }
                     />
