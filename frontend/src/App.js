@@ -14,6 +14,7 @@ import axios from "axios";
 import "./App.css";
 import YutnoriWrap from "./components/YutnoriGame";
 import YutnoriGame from "./components/YutnoriGame";
+import HappinessTracker from "./components/HappinessTracker";
 
 function App() {
     const [username, setUsername] = useState(localStorage.getItem("username") || ""); // username 상태
@@ -81,6 +82,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <YutnoriGame />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/tracker"
+                        element={
+                            <ProtectedRoute>
+                                <HappinessTracker />
                             </ProtectedRoute>
                         }
                     />

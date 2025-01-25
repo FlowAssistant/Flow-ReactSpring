@@ -47,15 +47,15 @@ const Footer = () => {
                 <span>체크인</span>
             </div>
 
-            {/* 해석 */}
+            {/* 성과 */}
             <div
-                onClick={() => handleNavigation("analysis")}
+                onClick={() => handleNavigation("tracker")}
                 className={`${styles.menuItem} ${
-                    activeMenu === "analysis" ? styles.active : ""
+                    activeMenu === "tracker" ? styles.active : ""
                 }`}
             >
                 <i className={`fas fa-calendar-alt ${styles.icon}`}></i>
-                <span>분석</span>
+                <span>성과</span>
             </div>
 
             {/* 혜택 */}
