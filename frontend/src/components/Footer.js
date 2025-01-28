@@ -27,9 +27,9 @@ const Footer = () => {
 
             {/* 채팅 */}
             <div
-                onClick={() => handleNavigation("chat")}
+                onClick={() => handleNavigation("chatbot")}
                 className={`${styles.menuItem} ${
-                    activeMenu === "chat" ? styles.active : ""
+                    activeMenu === "chatbot" ? styles.active : ""
                 }`}
             >
                 <i className={`fas fa-comments ${styles.icon}`}></i>
@@ -38,9 +38,9 @@ const Footer = () => {
 
             {/* 체크인 */}
             <div
-                onClick={() => handleNavigation("signup")}
+                onClick={() => handleNavigation("checkin")}
                 className={`${styles.menuItem} ${
-                    activeMenu === "signup" ? styles.active : ""
+                    activeMenu === "checkin" ? styles.active : ""
                 }`}
             >
                 <i className={`fas fa-th-large ${styles.icon}`}></i>

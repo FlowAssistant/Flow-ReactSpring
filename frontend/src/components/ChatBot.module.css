@@ -15,7 +15,6 @@
 
 .chatHeader {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
     background: #2d8cf0;
