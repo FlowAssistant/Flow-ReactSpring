@@ -39,4 +39,6 @@ out/
 # Spring Boot 정적 리소스 무시
 /src/main/resources/static/
 # React build 디렉토리 무시
+frontend/.env
+/build/
 /frontend/build

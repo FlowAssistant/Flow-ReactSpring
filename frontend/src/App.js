@@ -15,6 +15,7 @@ import "./App.css";
 import YutnoriWrap from "./components/YutnoriGame";
 import YutnoriGame from "./components/YutnoriGame";
 import HappinessTracker from "./components/HappinessTracker";
+import ChatBot from "./components/ChatBot";
 
 function App() {
     const [username, setUsername] = useState(localStorage.getItem("username") || ""); // username 상태
@@ -70,10 +71,18 @@ function App() {
                 <Routes>
                     {/* Dashboard는 별도 경로로 추가 */}
                     <Route
-                        path="/dashboard"
+                        path="/"
                         element={
                             <ProtectedRoute>
                                 <Dashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/chatbot"
+                        element={
+                            <ProtectedRoute>
+                                <ChatBot />
                             </ProtectedRoute>
                         }
                     />
@@ -95,7 +104,7 @@ function App() {
                     />
                     {/* 시간대별 컴포넌트 */}
                     <Route
-                        path="/"
+                        path="/checkin"
                         element={
                             <ProtectedRoute>
                                 {getTimeBasedComponent()}
