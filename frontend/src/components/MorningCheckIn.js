@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./MorningCheckIn.module.css";
 
+
+const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+
+
 function MorningCheckIn({ username }) {
     const [currentStep, setCurrentStep] = useState(0);
     const [responses, setResponses] = useState([]);
