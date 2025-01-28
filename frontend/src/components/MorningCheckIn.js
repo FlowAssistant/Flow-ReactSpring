@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import styles from "./MorningCheckIn.module.css";
 
-
+// 환경 변수에서 OpenAI API 키 가져오기
 const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
-
 
 function MorningCheckIn({ username }) {
     const [currentStep, setCurrentStep] = useState(0);
@@ -68,11 +67,38 @@ function MorningCheckIn({ username }) {
 
     const handleFinalSubmit = async (allResponses) => {
         try {
-            const result = await axios.post("/api/morning-checkin", {
-                username: username,
-                responses: allResponses,
-            });
-            setFinalResponse(result.data.recommendedActivity);
+            const messages = [
+                {
+                    role: "system",
+                    content: `당신은 간결하고 실용적인 활동 추천을 제공하는 도우미입니다. 사용자의 응답을 바탕으로 적합한 활동을 추천해주세요. 불필요한 문구("알겠습니다" 등)는 포함하지 말고, 
+                    아래와 같은 형식을 따르세요: "오늘은 ~~하는 것을 추천드립니다." 형식으로 활동 추천을 시작하세요. 이어서 "또한, ~~와 같은 활동도 좋습니다." 형식으로 대안을 추가하세요.마지막에는 짧고 긍정적인 임의의 응원 메시지를 적어주세요. 답변 시 여러 문단으로 구분하고, 각 문단 끝에는 줄바꿈을 해주세요. 답변은 150자를 초과하지 말고 간결하게 작성하세요.`,
+                },
+                {
+                    role: "user",
+                    content: `사용자 이름: ${username}\n\n응답 목록:\n${allResponses
+                        .map((response, index) => `${index + 1}. ${response}`)
+                        .join("\n")}\n\n이 응답 데이터를 바탕으로 오늘 추천할 적합한 활동과 도움이 될만한 응원 메시지를 작성해주세요.`,
+                },
+            ];
+
+
+            const result = await axios.post(
+                "https://api.openai.com/v1/chat/completions",
+                {
+                    model: "gpt-3.5-turbo",
+                    messages: messages,
+                    max_tokens: 150, // 답변 길이 제한
+                    temperature: 0.7, // 다양성 조절
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${OPENAI_API_KEY}`,
+                    },
+                }
+            );
+
+            setFinalResponse(result.data.choices[0].message.content.trim());
         } catch (error) {
             console.error(error);
             setFinalResponse("추천 활동을 불러오지 못했습니다.");

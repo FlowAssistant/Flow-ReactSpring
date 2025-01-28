@@ -1,9 +1,11 @@
 import React from "react";
-import { FaBell, FaUser } from "react-icons/fa";
-import { BsStarFill } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 import styles from "./Dashboard.module.css";
+import logo from "../assets/images/flow_black_logo.png";
+
 
 function Dashboard() {
+    const navigate = useNavigate();
     return (
         <div className={styles.container}>
 
@@ -15,7 +17,8 @@ function Dashboard() {
             {/* Cards Section */}
             <section className={styles.cards}>
                 {/* Card 1 */}
-                <div className={`${styles.card} ${styles.cardPrimary}`}>
+                <div className={`${styles.card} ${styles.cardPrimary}`}
+                     onClick={() => navigate('/chatbot')}>
                     <div className={styles.cardHeader}>
                         <span className={styles.tag}>NEW</span>
                         <h2 className={styles.cardTitle}>Flow에게 물어보세요</h2>
@@ -24,8 +27,8 @@ function Dashboard() {
                         Flow는 당신이 오늘 무슨 일이 있으셨는지 너무 궁금해요 !
                     </p>
                     <img
-                        src="https://placehold.co/80x80"
-                        alt="AI assistant answering questions"
+                        src={logo}
+                        alt="chatbot"
                         className={styles.cardImage}
                     />
                 </div>

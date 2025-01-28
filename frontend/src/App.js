@@ -21,16 +21,17 @@ function App() {
     const [username, setUsername] = useState(localStorage.getItem("username") || ""); // username 상태
     const [profileImageUrl, setProfileImageUrl] = useState(""); // 프로필 이미지 URL 상태
 
-    // 사용자 정보 가져오기
+    // 프로필 정보 가져오기 (실패 시 로그아웃 처리)
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (username) {
                 try {
                     const response = await axios.get(`/api/users/${username}`);
                     const profileImageUrlWithTimestamp = `${response.data.profileImageUrl}?timestamp=${new Date().getTime()}`;
-                    setProfileImageUrl(profileImageUrlWithTimestamp); // 타임스탬프 추가
+                    setProfileImageUrl(profileImageUrlWithTimestamp);
                 } catch (error) {
                     console.error("Failed to fetch profile image", error);
+                    handleLogout(); // API 호출 실패 시 로그아웃 처리
                 }
             }
         };
@@ -47,7 +48,7 @@ function App() {
     // 로그아웃 핸들러
     const handleLogout = () => {
         setUsername("");
-        setProfileImageUrl(""); // 로그아웃 시 프로필 이미지 초기화
+        setProfileImageUrl("");
         localStorage.removeItem("username");
     };
 
