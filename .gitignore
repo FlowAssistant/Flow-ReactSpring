@@ -41,3 +41,4 @@ out/
 # React build 디렉토리 무시
 frontend/.env
 /build/
+/frontend/build
