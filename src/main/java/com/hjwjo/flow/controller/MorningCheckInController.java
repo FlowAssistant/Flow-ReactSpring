@@ -1,32 +1,36 @@
 package com.hjwjo.flow.controller;
 
-import com.hjwjo.flow.entity.MorningCheckIn;
-import com.hjwjo.flow.service.MorningCheckInService;
+import com.hjwjo.flow.entity.Mood;
+import com.hjwjo.flow.service.MoodService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
 public class MorningCheckInController {
 
-    private final MorningCheckInService service;
+    private final MoodService moodService;
 
-    public MorningCheckInController(MorningCheckInService service) {
-        this.service = service;
+    public MorningCheckInController(MoodService moodService) {
+        this.moodService = moodService;
     }
 
     @PostMapping("/morning-checkin")
     public ResponseEntity<?> morningCheckIn(@RequestBody Map<String, Object> request) {
-        String username = (String) request.get("username");
-        List<String> responses = (List<String>) request.get("responses"); // 여러 응답을 받음
+        UUID userId = UUID.fromString((String) request.get("userId"));
+        String moodType = (String) request.get("mood");
+        Integer moodIntensity = (Integer) request.get("intensity");
+        String note = (String) request.get("note");
 
-        MorningCheckIn checkIn = service.handleCheckIn(username, responses);
+        Mood mood = moodService.saveMood(userId, moodType, moodIntensity, note);
+
         return ResponseEntity.ok(Map.of(
-                "message", "체크인에 성공했습니다.",
-                "recommendedActivity", checkIn.getRecommendedActivity()
+                "message", "아침 체크인 완료",
+                "moodType", mood.getMoodType()
         ));
     }
 }
