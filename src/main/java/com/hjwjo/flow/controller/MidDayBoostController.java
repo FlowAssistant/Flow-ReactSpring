@@ -1,34 +1,36 @@
 package com.hjwjo.flow.controller;
 
-import com.hjwjo.flow.entity.EmotionLog;
-import com.hjwjo.flow.service.MidDayBoostService;
+import com.hjwjo.flow.entity.Activity;
+import com.hjwjo.flow.service.ActivityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
 public class MidDayBoostController {
 
-    private final MidDayBoostService service;
+    private final ActivityService activityService;
 
-    public MidDayBoostController(MidDayBoostService service) {
-        this.service = service;
+    public MidDayBoostController(ActivityService activityService) {
+        this.activityService = activityService;
     }
 
     @PostMapping("/midday-boost")
     public ResponseEntity<?> middayBoost(@RequestBody Map<String, Object> request) {
-        String username = (String) request.get("username");
-        List<String> responses = (List<String>) request.get("responses"); // 다단계 질문 응답 리스트
+        UUID userId = UUID.fromString((String) request.get("userId"));
+        String activityType = (String) request.get("activity");
+        Integer satisfaction = (Integer) request.get("satisfaction");
+        Integer duration = (Integer) request.get("duration");
 
-        String feedback = service.generatePersonalizedFeedback(username, responses);
+        Activity activity = activityService.saveActivity(userId, activityType, satisfaction, duration);
 
         return ResponseEntity.ok(Map.of(
-                "username", username,
-                "feedback", feedback,
-                "pointsEarned", 10 // 예제 포인트 시스템
+                "message", "중간 체크 기록 완료",
+                "activityType", activity.getActivityType()
         ));
     }
 }

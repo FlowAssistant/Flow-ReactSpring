@@ -1,0 +1,85 @@
+-- UUID 생성 확장 기능 추가
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- ENUM 타입 생성 (Chat_History 테이블에서 사용)
+CREATE TYPE sender_type AS ENUM ('user', 'bot');
+
+-- 사용자 테이블
+CREATE TABLE "User" (
+	"user_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"username" VARCHAR(50) NOT NULL,
+	"password" VARCHAR(255) NOT NULL,
+	"email" VARCHAR(100) NULL,
+	"profile_img" TEXT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("user_id")
+);
+
+-- 목표 테이블
+CREATE TABLE "Goal" (
+	"goal_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"title" VARCHAR(255) NOT NULL,
+	"description" TEXT NULL,
+	"target_date" DATE NOT NULL,
+	"is_completed" BOOLEAN NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("goal_id"),
+	CONSTRAINT "FK_User_TO_Goal" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);
+
+-- 기분 추적 테이블
+CREATE TABLE "Mood" (
+	"mood_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"mood_type" VARCHAR(50) NOT NULL,
+	"mood_intensity" INT NULL,
+	"note" TEXT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("mood_id"),
+	CONSTRAINT "FK_User_TO_Mood" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);
+
+-- 활동 기록 테이블
+CREATE TABLE "Activity" (
+	"activity_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"activity_type" VARCHAR(100) NOT NULL,
+	"duration" INT NULL,
+	"satisfaction" INT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("activity_id"),
+	CONSTRAINT "FK_User_TO_Activity" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);
+
+-- AI 피드백 테이블
+CREATE TABLE "AI_Feedback" (
+	"feedback_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"content" TEXT NOT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("feedback_id"),
+	CONSTRAINT "FK_User_TO_AI_Feedback" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);
+
+-- 행복 추적 테이블
+CREATE TABLE "Happiness_Tracker" (
+	"tracker_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"week_number" INT NULL,
+	"happiness_score" INT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("tracker_id"),
+	CONSTRAINT "FK_User_TO_Happiness_Tracker" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);
+
+-- 채팅 기록 테이블
+CREATE TABLE "Chat_History" (
+	"chat_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+	"user_id" UUID NOT NULL,
+	"message" TEXT NOT NULL,
+	"sender" sender_type NOT NULL,
+	"created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY ("chat_id"),
+	CONSTRAINT "FK_User_TO_Chat_History" FOREIGN KEY ("user_id") REFERENCES "User" ("user_id") ON DELETE CASCADE
+);

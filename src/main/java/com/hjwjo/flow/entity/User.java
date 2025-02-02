@@ -1,105 +1,64 @@
 package com.hjwjo.flow.entity;
 
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "user_id", updatable = false, nullable = false)
+    private UUID id;
 
     @NotBlank(message = "Username is required")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
 
     @NotBlank(message = "Password is required")
+    @Column(nullable = false)
     private String password;
 
-    @NotBlank(message = "Name is required")
-    private String name;
-
     @Email(message = "Email should be valid")
-    @Column(unique = true)
+    @Column(unique = true, length = 100)
     private String email;
 
-    private String profileImageUrl; // 프로필 이미지 경로
+    @Column(columnDefinition = "TEXT")
+    private String profileImg;
 
-    private LocalDateTime createdAt; // 생성 시간
-    private LocalDateTime updatedAt; // 수정 시간
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    // 목표 (Goal)와 1:N 관계
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Goal> goals;
+
+    // 기분 기록 (Mood)와 1:N 관계
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mood> moods;
+
+    // 활동 기록 (Activity)와 1:N 관계 추가
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Activity> activities;
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.profileImageUrl == null || this.profileImageUrl.isEmpty()) {
-            this.profileImageUrl = "/default-profile.png";
+        if (this.profileImg == null || this.profileImg.isEmpty()) {
+            this.profileImg = "/default-profile.png"; // 기본 프로필 이미지 경로
         }
     }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    // Getter와 Setter 추가
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
 }
